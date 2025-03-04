@@ -1,4 +1,5 @@
 // Import Main Dependencies
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 // Import screens/pages
@@ -6,7 +7,12 @@ import 'package:data_test/pages/homepage.dart';
 import 'package:data_test/pages/profilepage.dart';
 import 'package:data_test/pages/eventspage.dart';
 
-void main() {
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MainApp());
 }
 

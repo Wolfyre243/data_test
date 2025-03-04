@@ -1,5 +1,10 @@
 // Import main dependencies
+import 'dart:async';
 import 'package:flutter/material.dart';
+
+// Import SQLite dependencies
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 // Define the event item class
 class EventItem {
