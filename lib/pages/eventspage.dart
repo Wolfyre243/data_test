@@ -23,23 +23,24 @@ class EventsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('Events Page')),
-      body: ListView.builder(
-        itemCount: eventList.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(eventList[index].name),
-              subtitle: Text(eventList[index].description),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DetailScreen(item: eventList[index])),
-                );
-              }
-            )
-          );
-        }
-      )
+      // body: ListView.builder(
+      //   itemCount: eventList.length,
+      //   itemBuilder: (context, index) {
+      //     return Card(
+      //       child: ListTile(
+      //         title: Text(eventList[index].name),
+      //         subtitle: Text(eventList[index].description),
+      //         onTap: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (context) => DetailScreen(item: eventList[index])),
+      //           );
+      //         }
+      //       )
+      //     );
+      //   }
+      // )
+      body: EventJSON()
     );
   }
 }
