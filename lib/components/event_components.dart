@@ -21,6 +21,10 @@ class EventItem {
     required this.description,
   });
 
+  Map<String, Object?> toMap() {
+    return { 'id': id, 'name': name, 'date': date, 'description': description };
+  }
+
   // Factory constructor
   factory EventItem.fromJson(Map<String, dynamic> json) {
     return EventItem(

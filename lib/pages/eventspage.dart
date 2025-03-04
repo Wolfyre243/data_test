@@ -4,6 +4,7 @@ import 'dart:convert';
 
 // Import component dependencies
 import 'package:data_test/components/event_components.dart';
+import 'package:data_test/database/eventcontroller.dart';
 
 class EventsPage extends StatelessWidget {
   final String jsonData = '''

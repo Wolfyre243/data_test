@@ -1,17 +1,23 @@
 // Import Main Dependencies
 import 'dart:async';
+import 'package:data_test/database/database.dart';
 import 'package:flutter/material.dart';
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 // Import screens/pages
 import 'package:data_test/pages/homepage.dart';
 import 'package:data_test/pages/profilepage.dart';
 import 'package:data_test/pages/eventspage.dart';
 
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:data_test/components/event_components.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initialiseDB();
 
   runApp(const MainApp());
 }
