@@ -10,38 +10,9 @@ import 'package:data_test/components/event_components.dart';
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   List<dynamic> jsonList = json.decode(jsonData);
-  //   List<EventItem> eventList = jsonList.map((json) => EventItem.fromJson(json)).toList();
-
-  //   return Scaffold(
-  //     appBar: AppBar(title: Text('Events Page')),
-  //     // body: ListView.builder(
-  //     //   itemCount: eventList.length,
-  //     //   itemBuilder: (context, index) {
-  //     //     return Card(
-  //     //       child: ListTile(
-  //     //         title: Text(eventList[index].name),
-  //     //         subtitle: Text(eventList[index].description),
-  //     //         onTap: () {
-  //     //           Navigator.push(
-  //     //             context,
-  //     //             MaterialPageRoute(builder: (context) => DetailScreen(item: eventList[index])),
-  //     //           );
-  //     //         }
-  //     //       )
-  //     //     );
-  //     //   }
-  //     // )
-  //     body: EventList()
-  //   );
-  // }
-
   @override
   _EventListState createState() => _EventListState();
 }
-
 class _EventListState extends State<EventsPage> {
   // String _data = 'No data yet';
   List<EventItem> _data = [];
@@ -67,8 +38,7 @@ class _EventListState extends State<EventsPage> {
     return File('$path/data.json');
   }
 
-  // TODO: Create simpler way to write a list of json data instead of single ones
-  Future<void> writeJson(Map<String, dynamic> jsonData) async {
+  Future<void> writeJson(List<Map<String, dynamic>> jsonData) async {
     final file = await _jsonFile;
     String jsonString = jsonEncode(jsonData);
     await file.writeAsString(jsonString);
@@ -80,12 +50,9 @@ class _EventListState extends State<EventsPage> {
       if (await file.exists()) {
         
         String contents = await file.readAsString();
-        // Map<String, dynamic> jsonData = jsonDecode(contents);
-        // List<dynamic> jsonList = json.decode(contents);
-
         // Note that the jsonList has to contain more than 1 entity for it to work as a list.
         // Still trying to figure this out.
-        List<dynamic> jsonList = jsonDecode(testjsonData);
+        List<dynamic> jsonList = jsonDecode(contents);
         setState(() {
           _data = jsonList.map((json) => EventItem.fromJson(json)).toList();
         });
@@ -100,17 +67,14 @@ class _EventListState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // List<dynamic> jsonList = json.decode(jsonData);
-    // List<EventItem> eventList = jsonList.map((json) => EventItem.fromJson(json)).toList();
 
-    // List<dynamic> testjsonList = json.decode(testjsonData);
-    // setState(() {
-    //   _data = testjsonList.map((json) => EventItem.fromJson(json)).toList();
-    // });
-    // List<EventItem> eventList = testjsonList.map((json) => EventItem.fromJson(json)).toList();
-    print(message);
+    final List<Map<String, dynamic>> initialEvents = [
+      {"id": 1, "name": "grocery1", "date": "6/3/2024", "description": "hello"},
+      {"id": 2, "name": "grocery2", "date": "6/3/2024", "description": "hello"},
+      {"id": 3, "name": "grocery3", "date": "6/3/2024", "description": "hello"},
+    ];
 
-    writeJson({"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"});
+    writeJson(initialEvents);
 
     return Scaffold(
       appBar: AppBar(title: Text("Events Page")),
@@ -134,13 +98,13 @@ class _EventListState extends State<EventsPage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // FloatingActionButton(
-          //   onPressed: () {
-          //     writeJson({"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"});
-          //   },
-          //   tooltip: "Save JSON Data",
-          //   child: Icon(Icons.save),
-          // ),
+          FloatingActionButton(
+            onPressed: () {
+              writeJson([{"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"}]);
+            },
+            tooltip: "Save JSON Data",
+            child: Icon(Icons.save),
+          ),
           SizedBox(height: 10),
           FloatingActionButton(
             onPressed: readJson,
