@@ -101,6 +101,7 @@ class _EventListState extends State<EventsPage> {
           FloatingActionButton(
             onPressed: () {
               writeJson([{"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"}]);
+              readJson();
             },
             tooltip: "Save JSON Data",
             child: Icon(Icons.save),
