@@ -38,10 +38,27 @@ class _EventListState extends State<EventsPage> {
     return File('$path/data.json');
   }
 
-  Future<void> writeJson(List<Map<String, dynamic>> jsonData) async {
+  Future<void> writeJson(List<EventItem> eventListData) async {
+    // Map<String, dynamic>
     final file = await _jsonFile;
-    String jsonString = jsonEncode(jsonData);
+
+    final convertedArr = eventListData.map((event) => event.toMap());
+
+    String jsonString = jsonEncode(convertedArr.toList());
     await file.writeAsString(jsonString);
+  }
+
+  Future<void> appendJson(Map<String, dynamic> itemData) async {
+    try {
+      final newEvent = EventItem.fromJson(itemData);
+      
+      setState(() {
+        _data.add(newEvent);
+      });
+
+    } catch (e) {
+      setState(() => message = e.toString());
+    }
   }
 
   Future<void> readJson() async {
@@ -68,13 +85,14 @@ class _EventListState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
 
-    final List<Map<String, dynamic>> initialEvents = [
-      {"id": 1, "name": "grocery1", "date": "6/3/2024", "description": "hello"},
-      {"id": 2, "name": "grocery2", "date": "6/3/2024", "description": "hello"},
-      {"id": 3, "name": "grocery3", "date": "6/3/2024", "description": "hello"},
-    ];
+    // Seed the JSON file
+    // final List<Map<String, dynamic>> initialEvents = [
+    //   {"id": 1, "name": "grocery1", "date": "6/3/2024", "description": "hello"},
+    //   {"id": 2, "name": "grocery2", "date": "6/3/2024", "description": "hello"},
+    //   {"id": 3, "name": "grocery3", "date": "6/3/2024", "description": "hello"},
+    // ];
 
-    writeJson(initialEvents);
+    // writeJson(initialEvents);
 
     return Scaffold(
       appBar: AppBar(title: Text("Events Page")),
@@ -100,13 +118,20 @@ class _EventListState extends State<EventsPage> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              writeJson([{"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"}]);
+              writeJson(_data);
               readJson();
             },
             tooltip: "Save JSON Data",
             child: Icon(Icons.save),
           ),
           SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {
+              appendJson({"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"});
+            },
+            tooltip: "Add JSON Data",
+            child: Icon(Icons.add),
+          ),SizedBox(height: 10),
           FloatingActionButton(
             onPressed: readJson,
             tooltip: "Load JSON Data",
