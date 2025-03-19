@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:data_test/pages/homepage.dart';
 import 'package:data_test/pages/profilepage.dart';
 import 'package:data_test/pages/eventspage.dart';
+import 'package:data_test/pages/neweventdialog.dart';
 
 void main() {
   runApp(const MainApp());
@@ -29,7 +30,8 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/profile': (context) => ProfilePage(),
-        '/events': (context) => EventsPage()
+        '/events': (context) => EventsPage(),
+        '/newevent': (context) => NewEventDialog(),
       },
     );
   }

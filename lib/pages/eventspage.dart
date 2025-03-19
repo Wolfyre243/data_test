@@ -18,14 +18,6 @@ class _EventListState extends State<EventsPage> {
   List<EventItem> _data = [];
   String message = "Events";
 
-  final String testjsonData = '''
-    [
-      {"id": 1, "name": "Apple", "date": "6/3/2024", "description": "A red fruit"},
-      {"id": 2, "name": "Banana", "date": "6/3/2024", "description": "A yellow fruit"},
-      {"id": 3, "name": "Mango", "date": "6/3/2024", "description": "A tropical fruit"}
-    ]
-  ''';
-
   // Getter to retrieve local file storage path
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -83,16 +75,13 @@ class _EventListState extends State<EventsPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    readJson();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-    // Seed the JSON file
-    // final List<Map<String, dynamic>> initialEvents = [
-    //   {"id": 1, "name": "grocery1", "date": "6/3/2024", "description": "hello"},
-    //   {"id": 2, "name": "grocery2", "date": "6/3/2024", "description": "hello"},
-    //   {"id": 3, "name": "grocery3", "date": "6/3/2024", "description": "hello"},
-    // ];
-
-    // writeJson(initialEvents);
 
     return Scaffold(
       appBar: AppBar(title: Text("Events Page")),
@@ -118,16 +107,8 @@ class _EventListState extends State<EventsPage> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              writeJson(_data);
-              readJson();
-            },
-            tooltip: "Save JSON Data",
-            child: Icon(Icons.save),
-          ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () {
-              appendJson({"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"});
+              // appendJson({"id": 1, "name": "grocery", "date": "6/3/2024", "description": "hello"});
+              Navigator.pushNamed(context, '/newevent');
             },
             tooltip: "Add JSON Data",
             child: Icon(Icons.add),
