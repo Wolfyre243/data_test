@@ -61,10 +61,10 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text("Settings"),
-            // onTap: () {
-            //   Navigator.pop(context); // Closes the drawer
-            //   Navigator.pushNamed(context, '/profile');
-            // },
+            onTap: () {
+              Navigator.pop(context); // Closes the drawer
+              Navigator.pushNamed(context, '/settings');
+            },
           )
 
         ],

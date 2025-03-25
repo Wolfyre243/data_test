@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 // Import screens/pages
 import 'package:data_test/pages/homepage.dart';
 import 'package:data_test/pages/profilepage.dart';
+import 'package:data_test/pages/settingspage.dart';
 import 'package:data_test/pages/eventspage.dart';
 import 'package:data_test/pages/neweventdialog.dart';
 
-void main() {
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() async {
+
   runApp(const MainApp());
 }
 
@@ -30,6 +34,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/profile': (context) => ProfilePage(),
+        '/settings': (context) => SettingsPage(),
         '/events': (context) => EventsPage(),
         '/newevent': (context) => NewEventDialog(),
       },
