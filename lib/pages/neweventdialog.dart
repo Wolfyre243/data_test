@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:data_test/components/event_components.dart';
 import 'package:data_test/pages/eventspage.dart';
+import 'package:data_test/data/datamanager.dart';
 
 import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 class NewEventDialog extends StatelessWidget {
   const NewEventDialog({super.key});
@@ -73,20 +72,9 @@ class _NewEventFormState extends State<NewEventForm> {
   List<EventItem> _data = [];
   String message = "Events";
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
-
-  // Getter to retrive jsonFile
-  Future<File> get _jsonFile async {
-    final path = await _localPath;
-    return File('$path/data.json');
-  }
-
   Future<void> readJson() async {
     try {
-      final file = await _jsonFile;
+      final file = await DataManager.getJSONFile('data.json');
       if (await file.exists()) {
         
         String contents = await file.readAsString();
@@ -100,35 +88,6 @@ class _NewEventFormState extends State<NewEventForm> {
       } else {
         setState(() => message = "No saved data found.");
       }
-    } catch (e) {
-      setState(() => message = e.toString());
-    }
-  }
-
-  Future<void> writeJson(List<EventItem> eventListData) async {
-    // Map<String, dynamic>
-    final file = await _jsonFile;
-
-    final convertedArr = eventListData.map((event) => event.toMap());
-
-    String jsonString = jsonEncode(convertedArr.toList());
-    await file.writeAsString(jsonString);
-  }
-
-  Future<void> addEvent(Map<String, dynamic> itemData) async {
-    try {
-      // Fetch the data from the file and store it in the _data list.
-      await readJson();
-
-      itemData['id'] = _data.length + 1;
-
-      final newEvent = EventItem.fromJson(itemData);
-      
-      setState(() {
-        _data.add(newEvent);
-        writeJson(_data);
-      });
-
     } catch (e) {
       setState(() => message = e.toString());
     }
@@ -170,13 +129,15 @@ class _NewEventFormState extends State<NewEventForm> {
                     );
 
                     // Actually add the event into the _data list
-                    addEvent({
+                    EventDataManager.addEvent({
                       'name': _eventNameController.text,
                       'date': _eventDateController.text,
                       'description': _eventDescController.text,
                     });
                     // Redirect user
-                    Navigator.pushNamed(context, '/events');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const EventsPage()),
+                    );
                   }
                 }, 
                 child: const Text('Submit'),
