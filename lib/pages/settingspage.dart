@@ -63,20 +63,20 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  // Map<String, dynamic> settingsMap = {};
+  Map<String, dynamic> settingsMap = {};
 
-  // Future<void> _loadPreferences() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     settingsMap['theme'] = prefs.getBool('theme') ?? false;
-  //   });
-  // }
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      settingsMap['theme'] = prefs.getBool('theme') ?? false;
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _loadPreferences();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ThemeSelect(),
-            // Text('Theme: ${settingsMap['theme']? 'Dark' : 'Light'}'),
+            Text('Theme: ${settingsMap['theme']? 'Dark' : 'Light'}'),
             SizedBox(height: 20)
           ]
         )

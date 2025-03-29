@@ -15,9 +15,7 @@ void main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,4 +38,11 @@ class MainApp extends StatelessWidget {
       },
     );
   }
+}
+
+class MainApp extends StatefulWidget {
+  const MainApp({super.key});
+
+  @override
+  _MainAppState createState() => _MainAppState();
 }
