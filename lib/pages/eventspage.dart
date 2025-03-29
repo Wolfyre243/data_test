@@ -1,11 +1,12 @@
 // Import main dependencies
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 // Import component dependencies
 import 'package:data_test/components/event_components.dart';
+import 'package:data_test/data/datamanager.dart';
+import 'package:data_test/components/appdrawer.dart';
+
 
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
@@ -18,44 +19,9 @@ class _EventListState extends State<EventsPage> {
   List<EventItem> _data = [];
   String message = "Events";
 
-  // Getter to retrieve local file storage path
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
-
-  // Getter to retrive jsonFile
-  Future<File> get _jsonFile async {
-    final path = await _localPath;
-    return File('$path/data.json');
-  }
-
-  Future<void> writeJson(List<EventItem> eventListData) async {
-    // Map<String, dynamic>
-    final file = await _jsonFile;
-
-    final convertedArr = eventListData.map((event) => event.toMap());
-
-    String jsonString = jsonEncode(convertedArr.toList());
-    await file.writeAsString(jsonString);
-  }
-
-  Future<void> appendJson(Map<String, dynamic> itemData) async {
-    try {
-      final newEvent = EventItem.fromJson(itemData);
-      
-      setState(() {
-        _data.add(newEvent);
-      });
-
-    } catch (e) {
-      setState(() => message = e.toString());
-    }
-  }
-
   Future<void> readJson() async {
     try {
-      final file = await _jsonFile;
+      final file = await DataManager.getJSONFile('data.json');
       if (await file.exists()) {
         
         String contents = await file.readAsString();
@@ -85,6 +51,7 @@ class _EventListState extends State<EventsPage> {
 
     return Scaffold(
       appBar: AppBar(title: Text("Events Page")),
+      drawer: AppDrawer(),
       body: ListView.builder(
         itemCount: _data.length,
         itemBuilder: (context, index) {

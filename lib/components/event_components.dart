@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:data_test/data/datamanager.dart';
+import 'package:data_test/pages/eventspage.dart';
 
 // Questions
 // - How to immediately read data without having to reload the page
@@ -61,9 +63,15 @@ class DetailScreen extends StatelessWidget {
             Text('ID (Debug): ${item.id}', style: TextStyle(fontSize: 18)),
             Text('Date: ${item.date}', style: TextStyle(fontSize: 18)),
             Text('Description: ${item.description}', style: TextStyle(fontSize: 18)),
-            IconButton(onPressed: () => {
-
-            }, icon: Icon(Icons.delete))
+            IconButton(
+              onPressed: () {
+                EventDataManager.deleteEvent(item.id);
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const EventsPage()),
+                );
+              }, 
+              icon: Icon(Icons.delete)
+            )
           ],
         ),
       ),
